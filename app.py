@@ -3,7 +3,7 @@ import streamlit as st
 # --- 1. 頁面設定 ---
 st.set_page_config(page_title="HK Trip 2025", page_icon="🇭🇰", layout="centered")
 
-# --- 2. CSS 淺色系魔法 ---
+# --- 2. CSS 樣式 (包含手機版強制橫排設定) ---
 st.markdown("""
     <style>
     /* 強制設定為淺色背景 */
@@ -11,48 +11,78 @@ st.markdown("""
         background-color: #FFFFFF;
     }
     
-    /* 全局文字顏色 - 深灰 */
-    body, .stMarkdown, div, h1, h2, h3, p, span {
+    /* 全局文字顏色 */
+    body, p, div, span, h1, h2, h3 {
         color: #333333 !important;
     }
     
-    /* 標題特別色 - 稍微深一點的黑 */
+    /* 標題特別色 */
     h1 { color: #000000 !important; font-weight: 800 !important;}
     
-    /* 黃色標籤 (Tag) - 淺黃底+深黃字 */
+    /* 卡片樣式 */
+    .card {
+        background-color: #F9F9F9;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        border-left: 5px solid #FFC107;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* 標籤樣式 */
     .tag {
         background-color: #FFF3CD;
         color: #856404 !important;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 13px;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 12px;
         font-weight: 600;
-        margin-right: 6px;
+        margin-right: 5px;
         display: inline-block;
         border: 1px solid #FFEEBA;
     }
-    
-    /* 行程卡片 - 白底+陰影+左側黃線 */
-    .card {
-        background-color: #F9F9F9;
-        padding: 16px;
-        border-radius: 12px;
-        margin-bottom: 12px;
-        border-left: 5px solid #FFC107; /* 亮黃色 */
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* 輕微陰影 */
-    }
-    
-    /* 航班資訊區塊邊框 */
-    [data-testid="stVerticalBlock"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"] {
-        background-color: #FAFAFA;
-        border-radius: 10px;
-    }
 
-    /* 時間軸樣式 */
-    .time-col { color: #888888 !important; font-weight: 600; font-size: 14px; padding-top: 5px; }
-    .icon-col { font-size: 22px; text-align: center; }
-    .content-title { font-weight: 700; font-size: 16px; margin-bottom: 2px; color: #222 !important; }
-    .content-note { color: #666666 !important; font-size: 13px; }
+    /* --- 重點：手機版時間軸強制橫排 (Flexbox) --- */
+    /* 這一區塊是讓手機不會跑版的關鍵 */
+    .timeline-row {
+        display: flex;       /* 強制橫向排列 */
+        align-items: flex-start;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #EEEEEE; 
+    }
+    
+    .t-time {
+        min-width: 55px;     /* 固定時間寬度，手機上才不會被擠扁 */
+        font-weight: bold;
+        color: #888888 !important;
+        font-size: 14px;
+        padding-top: 2px;
+    }
+    
+    .t-icon {
+        min-width: 30px;     /* 固定圖示寬度 */
+        font-size: 20px;
+        text-align: center;
+        margin-right: 10px;
+    }
+    
+    .t-content {
+        flex: 1;             /* 剩下的空間都給文字 */
+    }
+    
+    .t-title {
+        font-weight: 700;
+        font-size: 16px;
+        color: #222 !important;
+        line-height: 1.4;
+    }
+    
+    .t-note {
+        color: #666666 !important;
+        font-size: 13px;
+        margin-top: 2px;
+    }
     
     /* 隱藏多餘選單 */
     #MainMenu {visibility: hidden;}
@@ -60,28 +90,27 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 3. 自定義函式：畫出一行行程 ---
+# --- 3. 新版函式：使用 HTML 繪製行程 (手機不跑版核心) ---
 def timeline(time, icon, title, note=""):
-    col1, col2, col3 = st.columns([0.8, 0.5, 4.5])
-    with col1:
-        st.markdown(f'<div class="time-col">{time}</div>', unsafe_allow_html=True)
-    with col2:
-        st.markdown(f'<div class="icon-col">{icon}</div>', unsafe_allow_html=True)
-    with col3:
-        st.markdown(f'<div class="content-title">{title}</div>', unsafe_allow_html=True)
-        if note:
-            st.markdown(f'<div class="content-note">{note}</div>', unsafe_allow_html=True)
-    st.markdown('<div style="margin-bottom: 12px;"></div>', unsafe_allow_html=True)
+    # 這裡直接用 HTML 寫入，不再依賴 st.columns，確保手機顯示正常
+    html_code = f"""
+    <div class="timeline-row">
+        <div class="t-time">{time}</div>
+        <div class="t-icon">{icon}</div>
+        <div class="t-content">
+            <div class="t-title">{title}</div>
+            <div class="t-note">{note}</div>
+        </div>
+    </div>
+    """
+    st.markdown(html_code, unsafe_allow_html=True)
 
 # --- 4. 頂部資訊區 ---
 st.markdown("# 🇭🇰 香港三日遊")
 st.markdown("**日期：** 11/28 ~ 11/30")
-st.markdown("""
-    <div style="margin-top: 10px; margin-bottom: 20px;">
-    </div>
-""", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True) # 空行
 
-# --- 5. 航班資訊 (使用 Streamlit 原生卡片) ---
+# --- 5. 航班資訊 ---
 with st.container(border=True):
     st.markdown("### ✈️ 航班資訊")
     f1, f2 = st.columns(2)
@@ -93,7 +122,6 @@ with st.container(border=True):
         st.caption("CX402 | 18:35 HKG → 20:35 TPE")
 
 # --- 6. 每日行程 (Tabs) ---
-# 這裡加一點空行讓版面舒服
 st.write("") 
 tab1, tab2, tab3 = st.tabs(["Day 1 (五)", "Day 2 (六)", "Day 3 (日)"])
 
@@ -151,4 +179,3 @@ with tab3:
     timeline("15:00", "🚌", "前往機場", "巴士A22")
     timeline("16:00", "✈️", "機場 最後的補貨", "榮華小桃酥、黯然銷魂飯")
     timeline("18:35", "🛫", "飛機起飛 回台灣", "CX402 -> 20:35 抵達")
-
