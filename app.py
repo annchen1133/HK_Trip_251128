@@ -1,48 +1,60 @@
 import streamlit as st
 
-# --- 1. 頁面設定 (必須是第一行) ---
+# --- 1. 頁面設定 ---
 st.set_page_config(page_title="HK Trip 2025", page_icon="🇭🇰", layout="centered")
 
-# --- 2. CSS 魔法 (讓它長得像 App 的關鍵) ---
+# --- 2. CSS 淺色系魔法 ---
 st.markdown("""
     <style>
-    /* 全局字體與顏色 */
-    .main {
-        background-color: #1E1E1E; /* 深灰背景 */
-        color: #FFFFFF;
+    /* 強制設定為淺色背景 */
+    .stApp {
+        background-color: #FFFFFF;
     }
     
-    /* 標題樣式 */
-    h1 { color: #FFD700 !important; font-size: 28px !important; }
-    h3 { color: #FFA500 !important; }
+    /* 全局文字顏色 - 深灰 */
+    body, .stMarkdown, div, h1, h2, h3, p, span {
+        color: #333333 !important;
+    }
     
-    /* 模擬截圖中的黃色標籤 */
+    /* 標題特別色 - 稍微深一點的黑 */
+    h1 { color: #000000 !important; font-weight: 800 !important;}
+    
+    /* 黃色標籤 (Tag) - 淺黃底+深黃字 */
     .tag {
-        background-color: #D4AF37;
-        color: black;
+        background-color: #FFF3CD;
+        color: #856404 !important;
         padding: 4px 12px;
-        border-radius: 15px;
-        font-size: 14px;
-        font-weight: bold;
-        margin-right: 5px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-right: 6px;
         display: inline-block;
+        border: 1px solid #FFEEBA;
     }
     
-    /* 行程卡片區塊 */
+    /* 行程卡片 - 白底+陰影+左側黃線 */
     .card {
-        background-color: #2D2D2D;
-        padding: 15px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        border-left: 4px solid #D4AF37;
+        background-color: #F9F9F9;
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        border-left: 5px solid #FFC107; /* 亮黃色 */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* 輕微陰影 */
     }
     
+    /* 航班資訊區塊邊框 */
+    [data-testid="stVerticalBlock"] > [style*="flex-direction: column;"] > [data-testid="stVerticalBlock"] {
+        background-color: #FAFAFA;
+        border-radius: 10px;
+    }
+
     /* 時間軸樣式 */
-    .time-col { color: #AAAAAA; font-weight: bold; font-size: 14px; }
-    .content-title { font-weight: bold; font-size: 16px; margin-bottom: 0px;}
-    .content-note { color: #888888; font-size: 13px; }
+    .time-col { color: #888888 !important; font-weight: 600; font-size: 14px; padding-top: 5px; }
+    .icon-col { font-size: 22px; text-align: center; }
+    .content-title { font-weight: 700; font-size: 16px; margin-bottom: 2px; color: #222 !important; }
+    .content-note { color: #666666 !important; font-size: 13px; }
     
-    /* 隱藏預設選單 */
+    /* 隱藏多餘選單 */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     </style>
@@ -50,31 +62,29 @@ st.markdown("""
 
 # --- 3. 自定義函式：畫出一行行程 ---
 def timeline(time, icon, title, note=""):
-    # 使用欄位來模擬時間軸: [時間] [圖示] [內容]
-    col1, col2, col3 = st.columns([1, 0.5, 4.5])
+    col1, col2, col3 = st.columns([0.8, 0.5, 4.5])
     with col1:
-        st.markdown(f'<div class="time-col" style="padding-top:5px;">{time}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="time-col">{time}</div>', unsafe_allow_html=True)
     with col2:
-        st.markdown(f'<div style="font-size:20px;">{icon}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="icon-col">{icon}</div>', unsafe_allow_html=True)
     with col3:
         st.markdown(f'<div class="content-title">{title}</div>', unsafe_allow_html=True)
         if note:
             st.markdown(f'<div class="content-note">{note}</div>', unsafe_allow_html=True)
-    st.markdown('<div style="margin-bottom: 15px;"></div>', unsafe_allow_html=True) # 間距
+    st.markdown('<div style="margin-bottom: 12px;"></div>', unsafe_allow_html=True)
 
 # --- 4. 頂部資訊區 ---
-st.markdown("# 🇭🇰 香港三日・美食漫遊")
-st.markdown("日期：11/28 ~ 11/30 (3天2夜) | 4人朋友旅行")
+st.markdown("# 🇭🇰 香港三日・秋日漫遊")
+st.markdown("**日期：** 11/28 ~ 11/30 (3天2夜) ｜ **旅伴：** 4人朋友旅行")
 st.markdown("""
-    <div>
-        <span class="tag">迪士尼 Disney</span>
-        <span class="tag">堅尼地城</span>
-        <span class="tag">爆食之旅</span>
+    <div style="margin-top: 10px; margin-bottom: 20px;">
+        <span class="tag">#迪士尼 Disney</span>
+        <span class="tag">#堅尼地城</span>
+        <span class="tag">#爆食之旅</span>
     </div>
-    <br>
 """, unsafe_allow_html=True)
 
-# --- 5. 航班資訊 (兩欄排列) ---
+# --- 5. 航班資訊 (使用 Streamlit 原生卡片) ---
 with st.container(border=True):
     st.markdown("### ✈️ 航班資訊")
     f1, f2 = st.columns(2)
@@ -86,37 +96,38 @@ with st.container(border=True):
         st.caption("CX402 | 18:35 HKG → 20:35 TPE")
 
 # --- 6. 每日行程 (Tabs) ---
+# 這裡加一點空行讓版面舒服
+st.write("") 
 tab1, tab2, tab3 = st.tabs(["Day 1 (五)", "Day 2 (六)", "Day 3 (日)"])
 
 # === Day 1 ===
 with tab1:
-    # 當日主題卡片
     st.markdown("""
         <div class="card">
-            <div style="font-size:18px; font-weight:bold;">✨ 迪士尼童話 + 在地宵夜</div>
-            <div style="font-size:12px; color:#ccc;">主題：樂園・童趣</div>
+            <div style="font-size:18px; font-weight:bold; color:#333 !important;">✨ 迪士尼童話 + 在地宵夜</div>
+            <div style="font-size:12px; color:#666 !important;">主題：樂園・童趣</div>
         </div>
     """, unsafe_allow_html=True)
     
-    st.markdown("#### 🕒 每日行程時間軸")
+    st.markdown("#### 🕒 行程時間軸")
     timeline("08:00", "🛫", "桃園機場出發", "國泰航空 CX407")
     timeline("10:15", "🛬", "抵達香港機場", "入境、領行李")
     timeline("11:30", "🚗", "寄放行李 @ 迪士尼", "第1停車場 12、13號位")
     timeline("12:00", "🎢", "香港迪士尼樂園", "盡情玩樂！看煙火！")
     timeline("20:00", "🍲", "晚餐：十大碗粥麵專家", "必點：腸粉、豬手麵")
     timeline("21:30", "🧁", "甜點：HeSheEat", "旺角甜點名店")
-    timeline("22:30", "🛍️", "散步：新世紀廣場/花墟", "還有體力就去廟街！")
+    timeline("22:30", "🛍️", "散步：新世紀廣場/花墟", "逛到無聊去廟街 Day2 預習")
 
 # === Day 2 ===
 with tab2:
     st.markdown("""
         <div class="card">
-            <div style="font-size:18px; font-weight:bold;">📸 堅尼地城 + 港島爆食</div>
-            <div style="font-size:12px; color:#ccc;">主題：文青・街拍・名店</div>
+            <div style="font-size:18px; font-weight:bold; color:#333 !important;">📸 堅尼地城 + 港島爆食</div>
+            <div style="font-size:12px; color:#666 !important;">主題：文青・街拍・名店</div>
         </div>
     """, unsafe_allow_html=True)
     
-    st.markdown("#### 🕒 每日行程時間軸")
+    st.markdown("#### 🕒 行程時間軸")
     timeline("08:00", "☀️", "佐敦出發", "地鐵前往堅尼地城")
     timeline("09:00", "🥟", "早餐：新興食家", "港式飲茶老店")
     timeline("10:30", "☕️", "打卡：% Arabica", "C出口籃球場海景")
@@ -130,12 +141,12 @@ with tab2:
 with tab3:
     st.markdown("""
         <div class="card">
-            <div style="font-size:18px; font-weight:bold;">🛍️ 九龍衝刺 + 機場補貨</div>
-            <div style="font-size:12px; color:#ccc;">主題：購物・返程</div>
+            <div style="font-size:18px; font-weight:bold; color:#333 !important;">🛍️ 九龍衝刺 + 機場補貨</div>
+            <div style="font-size:12px; color:#666 !important;">主題：購物・返程</div>
         </div>
     """, unsafe_allow_html=True)
     
-    st.markdown("#### 🕒 每日行程時間軸")
+    st.markdown("#### 🕒 行程時間軸")
     timeline("08:30", "🥟", "早茶：倫敦大酒店", "傳統手推車港點")
     timeline("10:30", "🛍️", "尖沙咀 海港城", "Pop Mart、Bakehouse、生煎包")
     timeline("13:00", "🥤", "手搖：霸王茶姬", "最後一杯飲料")
@@ -144,4 +155,7 @@ with tab3:
     timeline("16:00", "✈️", "機場最後血拼", "榮華小桃酥、黯然銷魂飯")
     timeline("18:35", "🛫", "飛機起飛 回台灣", "CX402 -> 20:35 抵達 TPE")
 
-#
+# --- 底部連結 ---
+st.divider()
+st.caption("行程靈感來源：Threads @chenasquirrel")
+st.link_button("🔗 點此看原始貼文", "https://www.threads.com/@chenasquirrel/post/DRZBnJqgRGQ")
