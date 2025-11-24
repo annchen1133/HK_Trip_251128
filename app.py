@@ -74,13 +74,10 @@ def timeline(time, icon, title, note=""):
     st.markdown('<div style="margin-bottom: 12px;"></div>', unsafe_allow_html=True)
 
 # --- 4. 頂部資訊區 ---
-st.markdown("# 🇭🇰 香港三日・秋日漫遊")
-st.markdown("**日期：** 11/28 ~ 11/30 (3天2夜) ｜ **旅伴：** 4人朋友旅行")
+st.markdown("# 🇭🇰 香港三日遊")
+st.markdown("**日期：** 11/28 ~ 11/30")
 st.markdown("""
     <div style="margin-top: 10px; margin-bottom: 20px;">
-        <span class="tag">#迪士尼 Disney</span>
-        <span class="tag">#堅尼地城</span>
-        <span class="tag">#爆食之旅</span>
     </div>
 """, unsafe_allow_html=True)
 
@@ -104,58 +101,54 @@ tab1, tab2, tab3 = st.tabs(["Day 1 (五)", "Day 2 (六)", "Day 3 (日)"])
 with tab1:
     st.markdown("""
         <div class="card">
-            <div style="font-size:18px; font-weight:bold; color:#333 !important;">✨ 迪士尼童話 + 在地宵夜</div>
-            <div style="font-size:12px; color:#666 !important;">主題：樂園・童趣</div>
+            <div style="font-size:18px; font-weight:bold; color:#333 !important;">✨ 迪士尼 + 在地宵夜</div>
+            <div style="font-size:12px; color:#666 !important;">主題：遊樂園</div>
         </div>
     """, unsafe_allow_html=True)
     
     st.markdown("#### 🕒 行程時間軸")
     timeline("08:00", "🛫", "桃園機場出發", "國泰航空 CX407")
     timeline("10:15", "🛬", "抵達香港機場", "入境、領行李")
-    timeline("11:30", "🚗", "寄放行李 @ 迪士尼", "第1停車場 12、13號位")
-    timeline("12:00", "🎢", "香港迪士尼樂園", "盡情玩樂！看煙火！")
-    timeline("20:00", "🍲", "晚餐：十大碗粥麵專家", "必點：腸粉、豬手麵")
-    timeline("21:30", "🧁", "甜點：HeSheEat", "旺角甜點名店")
-    timeline("22:30", "🛍️", "散步：新世紀廣場/花墟", "逛到無聊去廟街 Day2 預習")
+    timeline("11:30", "🚗", "寄行李", "第1停車場 12、13號位")
+    timeline("12:00", "🎢", "香港迪士尼樂園", "冰雪奇緣gogo")
+    timeline("20:00", "🍲", "十大碗粥麵專家", "推薦腸粉、豬手麵")
+    timeline("21:30", "🧁", "HeSheEat", "旺角甜點名店")
+    timeline("22:30", "🛍️", "新世紀廣場/花墟", "逛到無聊去廟街 Day2 預習")
 
 # === Day 2 ===
 with tab2:
     st.markdown("""
         <div class="card">
             <div style="font-size:18px; font-weight:bold; color:#333 !important;">📸 堅尼地城 + 港島爆食</div>
-            <div style="font-size:12px; color:#666 !important;">主題：文青・街拍・名店</div>
+            <div style="font-size:12px; color:#666 !important;">主題：city walk・街拍</div>
         </div>
     """, unsafe_allow_html=True)
     
     st.markdown("#### 🕒 行程時間軸")
     timeline("08:00", "☀️", "佐敦出發", "地鐵前往堅尼地城")
-    timeline("09:00", "🥟", "早餐：新興食家", "港式飲茶老店")
-    timeline("10:30", "☕️", "打卡：% Arabica", "C出口籃球場海景")
-    timeline("12:00", "🏙️", "中環/上環 City Walk", "太平山摩羅上街、大館")
-    timeline("13:30", "🍖", "午餐：龍邦燒味 / 沾仔記", "看哪家排隊人少")
+    timeline("09:00", "🥟", "新興食家", "港式飲茶老店")
+    timeline("10:30", "☕️", "% Arabica", "拍照景點")
+    timeline("12:00", "🏙️", "中環/上環", "太平山摩羅上街、大館")
+    timeline("13:30", "🍖", "龍邦燒味 / 沾仔記", "看哪家排隊人少")
     timeline("15:00", "🍪", "伴手禮大戰", "珍妮曲奇 / Bakehouse / Vission Bakery")
-    timeline("17:00", "🏙️", "灣仔散策", "藍屋、太原街")
-    timeline("19:30", "🌃", "晚餐/宵夜：廟街夜市", "媽咪雞蛋仔、方太糕品舖")
+    timeline("17:00", "🏙️", "灣仔逛逛", "藍屋、太原街")
+    timeline("19:30", "🌃", "廟街夜市", "媽咪雞蛋仔、方太糕品舖")
 
 # === Day 3 ===
 with tab3:
     st.markdown("""
         <div class="card">
             <div style="font-size:18px; font-weight:bold; color:#333 !important;">🛍️ 九龍衝刺 + 機場補貨</div>
-            <div style="font-size:12px; color:#666 !important;">主題：購物・返程</div>
+            <div style="font-size:12px; color:#666 !important;">主題：購物</div>
         </div>
     """, unsafe_allow_html=True)
     
     st.markdown("#### 🕒 行程時間軸")
-    timeline("08:30", "🥟", "早茶：倫敦大酒店", "傳統手推車港點")
+    timeline("08:30", "🥟", "倫敦大酒店", "傳統手推車港點")
     timeline("10:30", "🛍️", "尖沙咀 海港城", "Pop Mart、Bakehouse、生煎包")
-    timeline("13:00", "🥤", "手搖：霸王茶姬", "最後一杯飲料")
-    timeline("13:30", "🍪", "伴手禮：帝苑餅店", "蝴蝶酥必買")
-    timeline("15:00", "🚌", "搭巴士 A22 前往機場", "跟香港說拜拜")
-    timeline("16:00", "✈️", "機場最後血拼", "榮華小桃酥、黯然銷魂飯")
-    timeline("18:35", "🛫", "飛機起飛 回台灣", "CX402 -> 20:35 抵達 TPE")
+    timeline("13:00", "🥤", "霸王茶姬", "最後一杯飲料")
+    timeline("13:30", "🍪", "帝苑餅店", "蝴蝶酥必買")
+    timeline("15:00", "🚌", "前往機場", "巴士A22")
+    timeline("16:00", "✈️", "機場 最後的補貨", "榮華小桃酥、黯然銷魂飯")
+    timeline("18:35", "🛫", "飛機起飛 回台灣", "CX402 -> 20:35 抵達")
 
-# --- 底部連結 ---
-st.divider()
-st.caption("行程靈感來源：Threads @chenasquirrel")
-st.link_button("🔗 點此看原始貼文", "https://www.threads.com/@chenasquirrel/post/DRZBnJqgRGQ")
