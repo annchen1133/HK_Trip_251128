@@ -1,0 +1,118 @@
+import hong_kong as hk
+from vibe import chill, excite, eat, shop
+from datetime import date
+
+class HK_Trip_2025:
+    def __init__(self):
+        self.dates = "1128-1130"
+        self.travelers = ["You", "Friends"]
+        self.mindset = "Flexible Mode: ON (Better option? GOGO!)"
+        self.hotel = "Check Confirmation Letter 🔍"
+    
+    def day_1_friday(self):
+        """
+        主題：迪士尼童話與在地宵夜
+        """
+        print(f"--- {self.dates} Day 1 Start ---")
+        
+        # ✈️ 飛行模式
+        hk.flight(code="CX407", route="TPE -> HKG", time="08:00-10:15")
+        
+        # 抵達後物流處理
+        hk.transport(type="Private Car", task="Luggage @ Car Park 1 (12/13)")
+        
+        # 🎢 主線任務：迪士尼
+        with excite.DisneyLand():
+            hk.play_until_exhausted()
+            
+        # 🍲 晚餐與宵夜
+        location = "Prince Edward / Mong Kok"
+        eat.local_food("十大碗粥麵專家", recommends=["腸粉", "豬手麵"])
+        eat.dessert("HeSheEat")
+        
+        # 🛍️ 購物散策
+        shop.mall("New Century Plaza (MOKO)", stores=["Hollister", "Sanrio"])
+        shop.street_walk(["通菜街", "金魚街", "花墟道"])
+        
+        if vibe.check_energy() > 20:
+            hk.move_to("Temple Street") # 提前預習 Day 2 晚間行程
+        else:
+            hk.sleep()
+
+    def day_2_saturday(self):
+        """
+        主題：港島文青風與爆食之旅
+        """
+        print(f"--- {self.dates} Day 2 Start ---")
+        hk.wakeup(time="08:00")
+        
+        # 🌅 早晨：堅尼地城 Vibes
+        hk.metro("Jordan -> Kennedy Town")
+        eat.dim_sum("新興食家")
+        hk.coffee("% Arabica", photo_spot="Basketball Court (Exit C)")
+        
+        # 🏙️ 中午：上環/中環 City Walk
+        hk.metro("Kennedy Town -> Sheung Wan")
+        hk.sightseeing(["Tai Ping Shan", "Cat Street (摩羅上街)"])
+        
+        # 🇭🇰 午餐：港式燒味決戰
+        try:
+            eat.lunch("龍邦燒味")
+        except StoreClosed:
+            eat.alternatives(["水記", "玉葉粉麵", "勝香園(多士脆脆)", "沾仔記"])
+            
+        # 🍪 伴手禮與烘焙戰場
+        shop.buy("Jenny Bakery")
+        shop.battle(["Vission Bakery", "Bakehouse"]) # 哪家不用排隊吃哪家
+        
+        # 📸 中環地標打卡
+        hk.walk(["Central Market", "Tai Kwun", "Ferris Wheel", "Landmark"])
+        
+        # 🌆 下午：灣仔深度遊
+        hk.metro("Central -> Wan Chai")
+        eat.dessert(["C Dessert", "我杯茶"])
+        hk.sightseeing(["Toy Street (太原街)", "Blue House"])
+        
+        # 港仔推薦列表 (隨機觸發)
+        recommends = ["腸粉皇", "竺扶大班燒味", "晶晶甜品", "聰記糯米糍", "維港冰室"]
+        eat.random_snack(recommends)
+        
+        # 🌃 晚上：佐敦廟街
+        hk.metro("Wan Chai -> Jordan")
+        hk.night_market("Temple Street")
+        eat.must_eat(["長州糯米滋", "媽咪雞蛋仔", "方太糕品舖"])
+
+    def day_3_sunday(self):
+        """
+        主題：九龍最後衝刺與機場搜刮
+        """
+        print(f"--- {self.dates} Day 3 Start ---")
+        hk.wakeup(time="08:00")
+        
+        # 🥟 傳統早茶
+        hk.bus("Hotel -> Shantung St")
+        eat.dim_sum("倫敦大酒店")
+        
+        # 🛍️ 尖沙咀最後血拼
+        hk.metro("Mong Kok -> Tsim Sha Tsui") # Or Bus 20A
+        shop.mall("Harbour City", targets=["Pop Mart", "Bakehouse", "Aus Dairy Co"])
+        
+        # 🥤 飲料與高級伴手禮
+        eat.drink("霸王茶姬")
+        shop.buy("The Royal Garden Fine Foods (蝴蝶酥/蛋糕)")
+        
+        # ✈️ 返程模式
+        hk.transport(type="Bus A22", time="15:00", dest="HKG Airport")
+        
+        # 🛫 機場最後補給
+        shop.airport_duty_free(["榮華餅店(小桃酥)", "黯然銷魂飯", "蛋塔王"])
+        
+        hk.flight(code="CX402", route="HKG -> TPE", time="18:35-20:35")
+        print("--- Trip Complete. Welcome Home! ---")
+
+# --- Execution ---
+if __name__ == "__main__":
+    trip = HK_Trip_2025()
+    trip.day_1_friday()
+    trip.day_2_saturday()
+    trip.day_3_sunday()
