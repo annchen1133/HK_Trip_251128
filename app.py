@@ -1,84 +1,147 @@
 import streamlit as st
 
-# --- 設定網頁標題與圖示 ---
-st.set_page_config(page_title="🇭🇰 HK Vibe Trip", page_icon="✈️")
+# --- 1. 頁面設定 (必須是第一行) ---
+st.set_page_config(page_title="HK Trip 2025", page_icon="🇭🇰", layout="centered")
 
-# --- CSS 美化 (讓手機版更好看) ---
+# --- 2. CSS 魔法 (讓它長得像 App 的關鍵) ---
 st.markdown("""
     <style>
-    .stButton>button {width: 100%; border-radius: 20px;}
-    .big-font {font-size:20px !important; font-weight: bold;}
+    /* 全局字體與顏色 */
+    .main {
+        background-color: #1E1E1E; /* 深灰背景 */
+        color: #FFFFFF;
+    }
+    
+    /* 標題樣式 */
+    h1 { color: #FFD700 !important; font-size: 28px !important; }
+    h3 { color: #FFA500 !important; }
+    
+    /* 模擬截圖中的黃色標籤 */
+    .tag {
+        background-color: #D4AF37;
+        color: black;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 5px;
+        display: inline-block;
+    }
+    
+    /* 行程卡片區塊 */
+    .card {
+        background-color: #2D2D2D;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border-left: 4px solid #D4AF37;
+    }
+    
+    /* 時間軸樣式 */
+    .time-col { color: #AAAAAA; font-weight: bold; font-size: 14px; }
+    .content-title { font-weight: bold; font-size: 16px; margin-bottom: 0px;}
+    .content-note { color: #888888; font-size: 13px; }
+    
+    /* 隱藏預設選單 */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
     </style>
     """, unsafe_allow_html=True)
 
-# --- 標題區 ---
-st.title("🇭🇰 香港 1128-1130 Vibe Trip")
-st.caption("行程僅供參考，有更好的選擇就 gogo！🚀")
-st.divider()
+# --- 3. 自定義函式：畫出一行行程 ---
+def timeline(time, icon, title, note=""):
+    # 使用欄位來模擬時間軸: [時間] [圖示] [內容]
+    col1, col2, col3 = st.columns([1, 0.5, 4.5])
+    with col1:
+        st.markdown(f'<div class="time-col" style="padding-top:5px;">{time}</div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown(f'<div style="font-size:20px;">{icon}</div>', unsafe_allow_html=True)
+    with col3:
+        st.markdown(f'<div class="content-title">{title}</div>', unsafe_allow_html=True)
+        if note:
+            st.markdown(f'<div class="content-note">{note}</div>', unsafe_allow_html=True)
+    st.markdown('<div style="margin-bottom: 15px;"></div>', unsafe_allow_html=True) # 間距
 
-# --- 側邊欄 (基本資訊) ---
-with st.sidebar:
-    st.header("🔍 行前準備")
-    st.checkbox("護照 & 簽證 (港簽/台胞證)")
-    st.checkbox("八達通 (手機版)")
-    st.checkbox("網卡/漫遊")
-    st.info("✈️ 去程: CX407 (08:00-10:15)\n✈️ 回程: CX402 (18:35-20:35)")
+# --- 4. 頂部資訊區 ---
+st.markdown("# 🇭🇰 香港三日・美食漫遊")
+st.markdown("日期：11/28 ~ 11/30 (3天2夜) | 4人朋友旅行")
+st.markdown("""
+    <div>
+        <span class="tag">迪士尼 Disney</span>
+        <span class="tag">堅尼地城</span>
+        <span class="tag">爆食之旅</span>
+    </div>
+    <br>
+""", unsafe_allow_html=True)
 
-# --- 行程邏輯 ---
+# --- 5. 航班資訊 (兩欄排列) ---
+with st.container(border=True):
+    st.markdown("### ✈️ 航班資訊")
+    f1, f2 = st.columns(2)
+    with f1:
+        st.markdown("**去程 (11/28)**")
+        st.caption("CX407 | 08:00 TPE → 10:15 HKG")
+    with f2:
+        st.markdown("**回程 (11/30)**")
+        st.caption("CX402 | 18:35 HKG → 20:35 TPE")
+
+# --- 6. 每日行程 (Tabs) ---
 tab1, tab2, tab3 = st.tabs(["Day 1 (五)", "Day 2 (六)", "Day 3 (日)"])
 
+# === Day 1 ===
 with tab1:
-    st.header("🎡 Day 1: 迪士尼與宵夜")
-    st.info("📍 12:00 包車出發迪士尼")
+    # 當日主題卡片
+    st.markdown("""
+        <div class="card">
+            <div style="font-size:18px; font-weight:bold;">✨ 迪士尼童話 + 在地宵夜</div>
+            <div style="font-size:12px; color:#ccc;">主題：樂園・童趣</div>
+        </div>
+    """, unsafe_allow_html=True)
     
-    col1, col2 = st.columns([1, 3])
-    with col1: st.checkbox("寄行李", key="d1_1")
-    with col2: st.write("第1停車場 12、13號位")
-    
-    st.markdown("### 🎢 主線任務")
-    if st.checkbox("迪士尼暢玩", key="d1_disney"):
-        st.balloons() # 點擊會有氣球特效！
-        st.success("Have a magical day!")
-        
-    st.markdown("### 🍲 晚餐/宵夜 (旺角/太子)")
-    with st.expander("港仔推薦清單 (點擊展開)"):
-        st.write("- **十大碗粥麵專家**: 腸粉、豬手麵")
-        st.write("- **HeSheEat**: 甜點")
-        st.write("- **新世紀廣場**: Hollister, Sanrio")
-    
-    st.warning("💡 還有體力？去廟街！沒體力？回飯店睡覺💤")
+    st.markdown("#### 🕒 每日行程時間軸")
+    timeline("08:00", "🛫", "桃園機場出發", "國泰航空 CX407")
+    timeline("10:15", "🛬", "抵達香港機場", "入境、領行李")
+    timeline("11:30", "🚗", "寄放行李 @ 迪士尼", "第1停車場 12、13號位")
+    timeline("12:00", "🎢", "香港迪士尼樂園", "盡情玩樂！看煙火！")
+    timeline("20:00", "🍲", "晚餐：十大碗粥麵專家", "必點：腸粉、豬手麵")
+    timeline("21:30", "🧁", "甜點：HeSheEat", "旺角甜點名店")
+    timeline("22:30", "🛍️", "散步：新世紀廣場/花墟", "還有體力就去廟街！")
 
+# === Day 2 ===
 with tab2:
-    st.header("📸 Day 2: 港島文青行")
-    st.write("08:00 佐敦 -> 堅尼地城")
+    st.markdown("""
+        <div class="card">
+            <div style="font-size:18px; font-weight:bold;">📸 堅尼地城 + 港島爆食</div>
+            <div style="font-size:12px; color:#ccc;">主題：文青・街拍・名店</div>
+        </div>
+    """, unsafe_allow_html=True)
     
-    st.checkbox("☕️ % Arabica (堅尼地城籃球場拍照)", key="d2_1")
-    st.checkbox("🥟 新興食家 (早茶)", key="d2_2")
-    
-    st.divider()
-    st.markdown("#### 🇭🇰 中環/上環 City Walk")
-    places = st.multiselect(
-        "你想去哪裡逛？(可多選)",
-        ["太平山摩羅上街", "大館", "中環街市", "香港摩天輪", "Vission Bakery", "Bakehouse", "珍妮曲奇"],
-        default=["Vission Bakery", "大館"]
-    )
-    if places:
-        st.write(f"GoGo! 目標: {', '.join(places)}")
+    st.markdown("#### 🕒 每日行程時間軸")
+    timeline("08:00", "☀️", "佐敦出發", "地鐵前往堅尼地城")
+    timeline("09:00", "🥟", "早餐：新興食家", "港式飲茶老店")
+    timeline("10:30", "☕️", "打卡：% Arabica", "C出口籃球場海景")
+    timeline("12:00", "🏙️", "中環/上環 City Walk", "太平山摩羅上街、大館")
+    timeline("13:30", "🍖", "午餐：龍邦燒味 / 沾仔記", "看哪家排隊人少")
+    timeline("15:00", "🍪", "伴手禮大戰", "珍妮曲奇 / Bakehouse / Vission Bakery")
+    timeline("17:00", "🏙️", "灣仔散策", "藍屋、太原街")
+    timeline("19:30", "🌃", "晚餐/宵夜：廟街夜市", "媽咪雞蛋仔、方太糕品舖")
 
-    st.divider()
-    st.markdown("#### 🌃 晚上: 灣仔 & 廟街")
-    st.checkbox("🍽️ 晚餐: 竺扶大班燒味 / 維港冰室", key="d2_dinner")
-    st.checkbox("🌙 廟街: 媽咪雞蛋仔 / 方太糕品", key="d2_temple")
-
+# === Day 3 ===
 with tab3:
-    st.header("🛍️ Day 3: 最後衝刺")
-    st.checkbox("🥟 倫敦大酒店 (早茶)", key="d3_1")
-    st.checkbox("🛍️ 海港城 (泡泡瑪特/Bakehouse)", key="d3_2")
-    st.checkbox("🍪 帝苑餅店 (蝴蝶酥)", key="d3_3")
+    st.markdown("""
+        <div class="card">
+            <div style="font-size:18px; font-weight:bold;">🛍️ 九龍衝刺 + 機場補貨</div>
+            <div style="font-size:12px; color:#ccc;">主題：購物・返程</div>
+        </div>
+    """, unsafe_allow_html=True)
     
-    st.divider()
-    st.error("🚨 15:00 必須出發去機場 (Bus A22)")
-    with st.expander("✈️ 機場必買"):
-        st.write("- 榮華餅店小桃酥")
-        st.write("- 蛋塔王")
-        st.write("- 黯然銷魂飯")
+    st.markdown("#### 🕒 每日行程時間軸")
+    timeline("08:30", "🥟", "早茶：倫敦大酒店", "傳統手推車港點")
+    timeline("10:30", "🛍️", "尖沙咀 海港城", "Pop Mart、Bakehouse、生煎包")
+    timeline("13:00", "🥤", "手搖：霸王茶姬", "最後一杯飲料")
+    timeline("13:30", "🍪", "伴手禮：帝苑餅店", "蝴蝶酥必買")
+    timeline("15:00", "🚌", "搭巴士 A22 前往機場", "跟香港說拜拜")
+    timeline("16:00", "✈️", "機場最後血拼", "榮華小桃酥、黯然銷魂飯")
+    timeline("18:35", "🛫", "飛機起飛 回台灣", "CX402 -> 20:35 抵達 TPE")
+
+#
